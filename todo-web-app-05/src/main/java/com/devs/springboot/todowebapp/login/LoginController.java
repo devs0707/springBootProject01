@@ -1,17 +1,47 @@
 package com.devs.springboot.todowebapp.login;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
+@SessionAttributes("name")
 public class LoginController {
+	
+	AuthenticationService authenticationService;
 
-	// To pass any value from controller to jsp we need to use Model.
-	@RequestMapping("login")
-	public String gotoLoginPage(@RequestParam String name, ModelMap model) {
-		model.put("name", name);
+	
+	
+	public LoginController(AuthenticationService authenticationService) {
+		super();
+		this.authenticationService = authenticationService;
+	}
+
+	// Handling Get and Post - lets just handle only GET
+	@RequestMapping(value="login", method = RequestMethod.GET)
+	public String gotoLoginPage() {
 		return "login";
+	}
+	
+	@RequestMapping(value="login", method = RequestMethod.POST)
+	public String gotoWelcomePage(@RequestParam String name, @RequestParam String password, ModelMap map) {
+		
+		//	Authentication Logic
+		// valid Username is dev and password is pass
+		if (authenticationService.authenticate(name, password)) {
+			map.put("name", name);
+			map.put("message", "Authentication Success...!");
+			return "welcome";
+		}
+
+		System.out.println("Login Failed");
+		map.put("message", "Authentication Failed Please check User Name and Password Again");
+		return "login";
+		
 	}
 }
