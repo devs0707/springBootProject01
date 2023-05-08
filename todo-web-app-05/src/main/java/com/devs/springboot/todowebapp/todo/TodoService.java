@@ -7,6 +7,8 @@ import java.util.function.Predicate;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.validation.Valid;
+
 @Service
 public class TodoService {
 
@@ -46,10 +48,13 @@ public class TodoService {
 		// TODO Auto-generated method stub
 		Predicate<? super Todo> predicate = 
 				todo -> todo.getId() == id;
-		int index = todos.indexOf(id);
-		System.out.println(index+ "   " + predicate);
-		Todo findedTodo = todos.get(index);
-		System.out.println("\n\n "+findedTodo);
-		return findedTodo;
+		Todo todo = todos.stream().filter(predicate).findFirst().get();
+		return todo;
+	}
+
+	public void upadteTodo(@Valid Todo todo) {
+		// TODO Auto-generated method stub
+		deleteById(todo.getId());
+		todos.add(todo);
 	}
 }
