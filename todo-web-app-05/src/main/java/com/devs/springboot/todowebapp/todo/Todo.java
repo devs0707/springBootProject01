@@ -2,17 +2,29 @@ package com.devs.springboot.todowebapp.todo;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 // Database
 // Create static List of todos => Database (h2, OracleDatabase)
 
-
+@Entity
 public class Todo {
+	
+	public Todo() {
+		
+	}
 
+	@Id
+	@GeneratedValue
 	private int id;
+
+//	@Column(name="name")	- To give different column name than variable name		
 	private String username;
+	
 	@NotBlank(message = "Please enter description")
 	@Size(min = 5, message = "Enter atleast 5 character")
 	private String description;

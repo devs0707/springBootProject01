@@ -1,0 +1,36 @@
+Here we are referring todo-web-app-05 project.
+-----------------------------------------------
+
+Lets first understand what is H2 Database:
+	- H2 is in memory database which we used in our spring boot project.
+	- It save the data temporary in the memory untill the application got restart.
+	- So If we want to use this in Production than it's a bad idea. As it'll not keep users data for a long time.
+	- There is a solution to solve this issue which is use other databases like mySQL, oracle, etc.
+	
+Let understand what is docker:
+	- Docker is a tool which will install any software user want in side that application and user can access the same at one place.
+	- It store those applications as a container. So whenever user wants to remove that application they can simply uninstall that container easily.
+	- We can install mySQL in the docker easily by using simple following command:
+		docker run --detach --env MYSQL_ROOT_PASSWORD=dummypassword --env MYSQL_USER=todos-user --env MYSQL_PASSWORD=dummytodos --env MYSQL_DATABASE=todos --name mysql --publish 3306:3306 mysql:8-oracle
+	- That command says that I want to use mysql 8  and my database name is 'todos' and run on 3306 port and my username and password is todos-user and dummypassword respectively.
+	
+Know we can use mySQL database in our application easily by simply performing following steps:
+	- Add the following code in pom.xml which will download sql dependency.
+		<dependency>
+			<groupId>sql</groupId>
+			<artifactId>sql-connector-java</artifactId>
+		</dependency>
+	- Now open application.properties and write following code which will connect to mySQL database:
+		spring.jpa.hibernate.ddl-auto=update
+		spring.datasource.url=jdbc:mysql://localhost:3306/todos
+		spring.datasource.username=todos-user
+		spring.datasource.password=dummytodos
+		spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+		
+	- spring.jpa.hibernate.ddl-auto has many values like update, auto, create-drop. It decide how application will be connected to Database. If we have a update value that means all data of the database will be as it is and we'll just update the database by performing CRUD operations. But suppose value is create-drop that means everytime when application got start at that time old table will be deleted and new table will be created.
+	
+	- NOTE: if we are using mySQL as a datasource than our sql file which is data.sql will not be executed.
+	- Now just comment datasource url of H2.
+		#spring.datasource.url=jdbc:h2:mem:testdb
+	
+	- Now all done just check whether the application is working properly or not.
