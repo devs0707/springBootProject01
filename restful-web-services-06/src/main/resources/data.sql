@@ -6,10 +6,10 @@ insert into user_details (id,birth_date,name)
 	values (10003, current_date(),'Yews');
 	
 	
-insert into post values(10001, 'Learn Aws');
-insert into post values(10001, 'Learn DevOps');
-insert into post values(10002, 'Learn Spring');
-insert into post values(10002, 'Learn Google');
-insert into post values(10003, 'Learn Aws');
-insert into post values(10003, 'Learn Cloud');
-insert into post values(10001, 'Learn Cloud');
+insert into post (id,description,user_id)values(20001, 'Learn Aws',10001);
+insert into post (id,description,user_id)values(20002, 'Learn DevOps', 10001);
+insert into post (id,description,user_id)values(20003, 'Learn Spring', 10001);
+insert into post (id,description,user_id)values(20004, 'Learn Google', 10002);
+insert into post (id,description,user_id)values(20005, 'Learn Aws', 10002);
+insert into post (id,description,user_id)values(20006, 'Learn Cloud', 10002);
+insert into post (id,description,user_id)values(20007, 'Learn Cloud', 10003);
